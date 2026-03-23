@@ -1,0 +1,57 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-test-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build containers
+        run: docker compose build
+
+      - name: Start containers
+        run: docker compose up -d
+
+      - name: Wait for services
+        run: sleep 10
+
+      - name: Run API test
+        run: sh api/tests/test.sh
+
+      - name: Build and tag web image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/bmi-web:latest ./web
+          docker build -t ghcr.io/${{ github.repository_owner }}/bmi-web:${{ github.sha }} ./web
+
+      - name: Build and tag api image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/bmi-api:latest ./api
+          docker build -t ghcr.io/${{ github.repository_owner }}/bmi-api:${{ github.sha }} ./api
+
+      - name: Push web image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/bmi-web:latest
+          docker push ghcr.io/${{ github.repository_owner }}/bmi-web:${{ github.sha }}
+
+      - name: Push api image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/bmi-api:latest
+          docker push ghcr.io/${{ github.repository_owner }}/bmi-api:${{ github.sha }}

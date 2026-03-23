@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  web:
+    build: ./web
+    container_name: bmi-web
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+  api:
+    build: ./api
+    container_name: bmi-api
+    ports:
+      - "8081:8080"

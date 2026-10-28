@@ -50,7 +50,7 @@ $accent = '#7c3aed';
         <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
             <div>
                 <div style="font-size:14px; opacity:.85; letter-spacing:.3px;">Health Tools</div>
-                <h1 style="margin:6px 0 0 0; font-size:28px; line-height:1.15;">BMI Calculator Version 2</h1>
+                <h1 style="margin:6px 0 0 0; font-size:28px; line-height:1.15;">BMI Calculator Version 3</h1>
                 <div style="margin-top:8px; font-size:14px; opacity:.8;">
                     2-service app: Web UI + API
                 </div>

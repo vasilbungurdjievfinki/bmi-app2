@@ -160,7 +160,7 @@ $accent = '#7c3aed';
         resultDiv.innerHTML = 'Loading...';
 
         try {
-            const response = await fetch('http://localhost:8081', {
+            const response = await fetch('http://localhost:8091', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

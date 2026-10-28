@@ -5,7 +5,7 @@ services:
     build: ./web
     container_name: bmi-web
     ports:
-      - "8080:80"
+      - "8090:80"
     depends_on:
       - api
 
@@ -13,4 +13,4 @@ services:
     build: ./api
     container_name: bmi-api
     ports:
-      - "8081:8080"
+      - "8091:8080"
